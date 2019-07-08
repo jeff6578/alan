@@ -24,6 +24,8 @@ Week3
 
 Week1
 
+[R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html)
+
 Week2
 
 Week3
