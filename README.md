@@ -14,7 +14,17 @@ Introduction：嗨，大家好，我是哲偉
 
 ### Homework
 
+Week1
+
+Week2
+
+Week3
+
 ### Schedule
 
 Week1
+
+Week2
+
+Week3
 
