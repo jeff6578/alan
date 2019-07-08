@@ -1,0 +1,19 @@
+---
+title: Habits
+author: John Doe
+date: March 22, 2005
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+lllllll
+
+```{r}
+num<-100
+cha<-'200'
+boo<-T
+is.numeric(num)
+```
