@@ -17,12 +17,12 @@
 #### Week1-1(7/8)
 
 Class:
-
-      1.
       
-      2.
+1.
       
-   3.[R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html "test")
+2.
+      
+3.[R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html "test")
 
 Home:
 
