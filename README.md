@@ -1,6 +1,6 @@
 # 2019 SUMMER
 
-### Announcement
+## Announcement
 ---
 Course：107學年度夏季學院【資料科學程式設計】
 
@@ -12,8 +12,8 @@ Department：景文電工三
 
 Introduction：嗨，大家好，我是哲偉
 
-### Schedule
---- 
+## Schedule
+----- 
 #### Week1-1(7/8)
 
 Class:[R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html)
