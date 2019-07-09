@@ -1,4 +1,4 @@
-# 2019 SUMMER College
+# 2019 Summer College
 
 ## Announcement
 ---
@@ -18,15 +18,18 @@
 
 Class:
       
-1.
+1.介紹上課大綱[PPD](https://docs.google.com/presentation/d/e/2PACX-1vRNotYqGl42khFyyjuiRYQ9cOOwNsBgGXgW-IBoIJDdiG6T2Adw2X-SO4dDGPhKqd7JlEb3ku9Hmn_7/pub?start=false&loop=false&delayms=3000&slide=id.p)
       
-2.
+2. - 註冊[Github](https://jeff6578.github.io/alan/)
+   - 建立[Readme](https://jeff6578.github.io/alan/README.md)
+  
       
-3.[R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html "test")
+3. - [x] 完成一個RMARKDOWN.html
+      [R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html "test")
 
 Home:
+- [x] 練習Markdown
 
-![](https://markdown.tw/images/208x128.png "test")
 
 
 #### Week1-4(7/11)
