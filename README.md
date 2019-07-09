@@ -22,12 +22,12 @@ Class:
       
       2.
       
-      3.
-   [R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html "test")
+   3.[R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html "test")
 
-Home:![alt][image01]
+Home:
 
-image01: https://markdown.tw/images/208x128.png "test"
+![](https://markdown.tw/images/208x128.png "test")
+
 
 #### Week1-4(7/11)
 
