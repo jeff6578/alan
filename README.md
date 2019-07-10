@@ -34,7 +34,8 @@ Class:
       [R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html "test")
 
 Home:
-- [x] 練習Markdown
+- [x] 練習Markdown 
+- [x] 想，要爬蟲的主題
 
 
 
