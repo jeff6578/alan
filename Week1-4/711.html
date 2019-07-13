@@ -378,21 +378,49 @@ $(document).ready(function () {
 
 
 <p>##資料來源 (空氣品質監測網https://taqm.epa.gov.tw/taqm/tw/YearlyDataDownload.aspx)</p>
-<div id="httpse-service.cwb.gov.twhistorydataqueryindex.jsp" class="section level2">
-<h2>(觀測資料查詢https://e-service.cwb.gov.tw/HistoryDataQuery/index.jsp)</h2>
+<p>##(觀測資料查詢https://e-service.cwb.gov.tw/HistoryDataQuery/index.jsp)</p>
 <p>#設定檔案位置和載入套件</p>
-<p>setwd(“C:/Users/jeff6/Desktop/Rstudio/Homework/0711”) library(dplyr)</p>
+<pre><code>setwd(&quot;C:/Users/jeff6/Desktop/Rstudio/Homework/0711&quot;)
+library(dplyr)</code></pre>
 <p>#整理永和區氣象資料</p>
-<p>YHml01&lt;- read.csv(“C0AH10-2018-01.csv”) YHml02&lt;- read.csv(“C0AH10-2018-02.csv”) YHml03&lt;- read.csv(“C0AH10-2018-03.csv”) YHml04&lt;- read.csv(“C0AH10-2018-04.csv”) YHml05&lt;- read.csv(“C0AH10-2018-05.csv”) YHml06&lt;- read.csv(“C0AH10-2018-06.csv”) YHml07&lt;- read.csv(“C0AH10-2018-07.csv”) YHml08&lt;- read.csv(“C0AH10-2018-08.csv”) YHml09&lt;- read.csv(“C0AH10-2018-09.csv”) YHml10&lt;- read.csv(“C0AH10-2018-10.csv”) YHml11&lt;- read.csv(“C0AH10-2018-11.csv”) YHml12&lt;- read.csv(“C0AH10-2018-12.csv”)</p>
-<p>YHml01data &lt;- select(YHml01, ObsTime, Temperature, RH, WD, Precp) YHml02data &lt;- select(YHml02, ObsTime, Temperature, RH, WD, Precp) YHml03data &lt;- select(YHml03, ObsTime, Temperature, RH, WD, Precp) YHml04data &lt;- select(YHml04, ObsTime, Temperature, RH, WD, Precp) YHml05data &lt;- select(YHml05, ObsTime, Temperature, RH, WD, Precp) YHml06data &lt;- select(YHml06, ObsTime, Temperature, RH, WD, Precp) YHml07data &lt;- select(YHml07, ObsTime, Temperature, RH, WD, Precp) YHml08data &lt;- select(YHml08, ObsTime, Temperature, RH, WD, Precp) YHml09data &lt;- select(YHml09, ObsTime, Temperature, RH, WD, Precp) YHml10data &lt;- select(YHml10, ObsTime, Temperature, RH, WD, Precp) YHml11data &lt;- select(YHml11, ObsTime, Temperature, RH, WD, Precp) YHml12data &lt;- select(YHml12, ObsTime, Temperature, RH, WD, Precp)</p>
-<p>YHMLdata &lt;- data.frame(rbind(YHml01data,YHml02data,YHml03data,YHml04data,YHml05data,YHml06data,YHml07data,YHml08data,YHml09data,YHml10data,YHml11data,YHml12data))</p>
+<pre><code>YHml01&lt;- read.csv(&quot;C0AH10-2018-01.csv&quot;)
+YHml02&lt;- read.csv(&quot;C0AH10-2018-02.csv&quot;)
+YHml03&lt;- read.csv(&quot;C0AH10-2018-03.csv&quot;)
+YHml04&lt;- read.csv(&quot;C0AH10-2018-04.csv&quot;)
+YHml05&lt;- read.csv(&quot;C0AH10-2018-05.csv&quot;)
+YHml06&lt;- read.csv(&quot;C0AH10-2018-06.csv&quot;)
+YHml07&lt;- read.csv(&quot;C0AH10-2018-07.csv&quot;)
+YHml08&lt;- read.csv(&quot;C0AH10-2018-08.csv&quot;)
+YHml09&lt;- read.csv(&quot;C0AH10-2018-09.csv&quot;)
+YHml10&lt;- read.csv(&quot;C0AH10-2018-10.csv&quot;)
+YHml11&lt;- read.csv(&quot;C0AH10-2018-11.csv&quot;)
+YHml12&lt;- read.csv(&quot;C0AH10-2018-12.csv&quot;)
+
+YHml01data &lt;- select(YHml01, ObsTime, Temperature, RH, WD, Precp)
+YHml02data &lt;- select(YHml02, ObsTime, Temperature, RH, WD, Precp)
+YHml03data &lt;- select(YHml03, ObsTime, Temperature, RH, WD, Precp)
+YHml04data &lt;- select(YHml04, ObsTime, Temperature, RH, WD, Precp)
+YHml05data &lt;- select(YHml05, ObsTime, Temperature, RH, WD, Precp)
+YHml06data &lt;- select(YHml06, ObsTime, Temperature, RH, WD, Precp)
+YHml07data &lt;- select(YHml07, ObsTime, Temperature, RH, WD, Precp)
+YHml08data &lt;- select(YHml08, ObsTime, Temperature, RH, WD, Precp)
+YHml09data &lt;- select(YHml09, ObsTime, Temperature, RH, WD, Precp)
+YHml10data &lt;- select(YHml10, ObsTime, Temperature, RH, WD, Precp)
+YHml11data &lt;- select(YHml11, ObsTime, Temperature, RH, WD, Precp)
+YHml12data &lt;- select(YHml12, ObsTime, Temperature, RH, WD, Precp)
+
+YHMLdata &lt;- data.frame(rbind(YHml01data,YHml02data,YHml03data,YHml04data,YHml05data,YHml06data,YHml07data,YHml08data,YHml09data,YHml10data,YHml11data,YHml12data))</code></pre>
 <p>#整理永和區PM2.5資料</p>
-<p>YHap&lt;- read.csv(“107年永和站PM2.5.csv”) YHPM2.5 &lt;- filter(YHap, 測項 %in% c(“PM2.5”))</p>
-<p>PM2.5sum &lt;- (rowSums(YHPM2.5[ , 4:27])) PM2.5avg &lt;- (rowMeans(YHPM2.5[ , 4:27]))</p>
-<p>avg &lt;- data.frame(PM2.5avg) sum &lt;- data.frame(PM2.5sum)</p>
+<pre><code>YHap&lt;- read.csv(&quot;107年永和站PM2.5.csv&quot;)
+YHPM2.5 &lt;- filter(YHap, 測項 %in% c(&quot;PM2.5&quot;))
+
+PM2.5sum &lt;- (rowSums(YHPM2.5[ , 4:27]))
+PM2.5avg &lt;- (rowMeans(YHPM2.5[ , 4:27]))
+
+avg &lt;- data.frame(PM2.5avg)
+sum &lt;- data.frame(PM2.5sum)</code></pre>
 <p>#合併兩個資料</p>
-<p>final &lt;- bind_cols(YHMLdata,avg,sum)</p>
-</div>
+<pre><code>final &lt;- bind_cols(YHMLdata,avg,sum)  </code></pre>
 
 
 
