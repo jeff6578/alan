@@ -1,0 +1,57 @@
+##資料來源 (空氣品質監測網https://taqm.epa.gov.tw/taqm/tw/YearlyDataDownload.aspx)
+
+##         (觀測資料查詢https://e-service.cwb.gov.tw/HistoryDataQuery/index.jsp)
+
+#設定檔案位置和載入套件
+
+setwd("C:/Users/jeff6/Desktop/Rstudio/Homework/0711")
+library(dplyr)
+
+
+#整理永和區氣象資料
+
+YHml01<- read.csv("C0AH10-2018-01.csv")
+YHml02<- read.csv("C0AH10-2018-02.csv")
+YHml03<- read.csv("C0AH10-2018-03.csv")
+YHml04<- read.csv("C0AH10-2018-04.csv")
+YHml05<- read.csv("C0AH10-2018-05.csv")
+YHml06<- read.csv("C0AH10-2018-06.csv")
+YHml07<- read.csv("C0AH10-2018-07.csv")
+YHml08<- read.csv("C0AH10-2018-08.csv")
+YHml09<- read.csv("C0AH10-2018-09.csv")
+YHml10<- read.csv("C0AH10-2018-10.csv")
+YHml11<- read.csv("C0AH10-2018-11.csv")
+YHml12<- read.csv("C0AH10-2018-12.csv")
+
+YHml01data <- select(YHml01, ObsTime, Temperature, RH, WD, Precp)
+YHml02data <- select(YHml02, ObsTime, Temperature, RH, WD, Precp)
+YHml03data <- select(YHml03, ObsTime, Temperature, RH, WD, Precp)
+YHml04data <- select(YHml04, ObsTime, Temperature, RH, WD, Precp)
+YHml05data <- select(YHml05, ObsTime, Temperature, RH, WD, Precp)
+YHml06data <- select(YHml06, ObsTime, Temperature, RH, WD, Precp)
+YHml07data <- select(YHml07, ObsTime, Temperature, RH, WD, Precp)
+YHml08data <- select(YHml08, ObsTime, Temperature, RH, WD, Precp)
+YHml09data <- select(YHml09, ObsTime, Temperature, RH, WD, Precp)
+YHml10data <- select(YHml10, ObsTime, Temperature, RH, WD, Precp)
+YHml11data <- select(YHml11, ObsTime, Temperature, RH, WD, Precp)
+YHml12data <- select(YHml12, ObsTime, Temperature, RH, WD, Precp)
+
+YHMLdata <- data.frame(rbind(YHml01data,YHml02data,YHml03data,YHml04data,YHml05data,YHml06data,YHml07data,YHml08data,YHml09data,YHml10data,YHml11data,YHml12data))
+
+
+#整理永和區PM2.5資料
+
+YHap<- read.csv("107年永和站PM2.5.csv")
+YHPM2.5 <- filter(YHap, 測項 %in% c("PM2.5"))
+
+PM2.5sum <- (rowSums(YHPM2.5[ , 4:27]))
+PM2.5avg <- (rowMeans(YHPM2.5[ , 4:27]))
+
+avg <- data.frame(PM2.5avg)
+sum <- data.frame(PM2.5sum)
+
+#合併兩個資料
+
+final <- bind_cols(YHMLdata,avg,sum)  
+
+
