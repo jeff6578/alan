@@ -1,15 +1,16 @@
+
 ##資料來源 (空氣品質監測網https://taqm.epa.gov.tw/taqm/tw/YearlyDataDownload.aspx)
 
 ##(觀測資料查詢https://e-service.cwb.gov.tw/HistoryDataQuery/index.jsp)
 
 #設定檔案位置和載入套件
-```
-setwd("C:/Users/jeff6/Desktop/Rstudio/Homework/0711")
+```{r}
+setwd("C:/Users/jeff6/Desktop/Github/alan/Week1-4")
 library(dplyr)
 ```
 
 #整理永和區氣象資料
-```
+```{r}
 YHml01<- read.csv("C0AH10-2018-01.csv")
 YHml02<- read.csv("C0AH10-2018-02.csv")
 YHml03<- read.csv("C0AH10-2018-03.csv")
@@ -40,7 +41,7 @@ YHMLdata <- data.frame(rbind(YHml01data,YHml02data,YHml03data,YHml04data,YHml05d
 ```
 
 #整理永和區PM2.5資料
-```
+```{r}
 YHap<- read.csv("107年永和站PM2.5.csv")
 YHPM2.5 <- filter(YHap, 測項 %in% c("PM2.5"))
 
@@ -50,8 +51,10 @@ PM2.5avg <- (rowMeans(YHPM2.5[ , 4:27]))
 avg <- data.frame(PM2.5avg)
 sum <- data.frame(PM2.5sum)
 ```
+
 #合併兩個資料
+```{r}
+final <- bind_cols(YHMLdata,avg,sum) 
 ```
-final <- bind_cols(YHMLdata,avg,sum)  
-```
+
 
