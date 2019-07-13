@@ -1,15 +1,20 @@
+---
+title: "永和區PM2.5和氣象資料比較關係"
+author: "陳哲偉"
+date: "2019年7月11日"
+output: html_document
+---
+###### 資料來源 (空氣品質監測網https://taqm.epa.gov.tw/taqm/tw/YearlyDataDownload.aspx)
 
-##資料來源 (空氣品質監測網https://taqm.epa.gov.tw/taqm/tw/YearlyDataDownload.aspx)
+###### (觀測資料查詢https://e-service.cwb.gov.tw/HistoryDataQuery/index.jsp)
 
-##(觀測資料查詢https://e-service.cwb.gov.tw/HistoryDataQuery/index.jsp)
-
-#設定檔案位置和載入套件
+# 設定檔案位置和載入套件
 ```{r}
 setwd("C:/Users/jeff6/Desktop/Github/alan/Week1-4")
 library(dplyr)
 ```
 
-#整理永和區氣象資料
+# 整理永和區氣象資料
 ```{r}
 YHml01<- read.csv("C0AH10-2018-01.csv")
 YHml02<- read.csv("C0AH10-2018-02.csv")
@@ -40,7 +45,7 @@ YHml12data <- select(YHml12, ObsTime, Temperature, RH, WD, Precp)
 YHMLdata <- data.frame(rbind(YHml01data,YHml02data,YHml03data,YHml04data,YHml05data,YHml06data,YHml07data,YHml08data,YHml09data,YHml10data,YHml11data,YHml12data))
 ```
 
-#整理永和區PM2.5資料
+# 整理永和區PM2.5資料
 ```{r}
 YHap<- read.csv("107年永和站PM2.5.csv")
 YHPM2.5 <- filter(YHap, 測項 %in% c("PM2.5"))
@@ -52,7 +57,7 @@ avg <- data.frame(PM2.5avg)
 sum <- data.frame(PM2.5sum)
 ```
 
-#合併兩個資料
+# 合併兩個資料
 ```{r}
 final <- bind_cols(YHMLdata,avg,sum) 
 ```

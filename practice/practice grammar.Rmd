@@ -1,0 +1,25 @@
+#注意到我們在sum()函式裡面，多加一個參數na.rm=TRUE。
+#其中，na.rm意味著“remove NA”，表示若資料裡面有遺漏值NA，會把它忽略，對剩下的資料進行加總。
+a <- c(1, 2, 3, 5, 8, 13, 21, NA, 55)
+sum(a, na.rm=TRUE)
+
+
+
+# 從iris的資料集中，取"Sepal.Length"(花萼長度)這個欄位的資料出來(利用神奇符號$)
+iris$Sepal.Length  
+iris <- (iris)
+
+##取iris1~4列的平均數丟到Rowmeans
+RowMeans <- (rowMeans(iris[ , 1:4]))
+
+#合併dataframe rbind cbind
+rbind(a,b) # rbind()：把兩個data frame，依據row合併起來
+cbind(a,b) # cbind()：把兩個data frame，依據column合併起來
+
+#值
+bind_rows()並bind_cols()返回與第一個輸入相同的類型，數據框tbl_df，或grouped_df。
+a <- bind_cols(YHMLdata,avg)
+
+#基本函數
+getwd() 	顯示目前的工作資料夾 
+setwd()	設定工作資料夾
