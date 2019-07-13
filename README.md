@@ -31,7 +31,7 @@ Class:
       - [Introduction to the Tidyverse](https://www.datacamp.com/courses/introduction-to-the-tidyverse)
       - [R for Data Science](https://r4ds.had.co.nz/)
 3. - [x] 完成一個RMARKDOWN.html
-      [R markdown html](https://jeff6578.github.io/alan/Week1/RMarkdown.html "test")
+      [R markdown html](https://jeff6578.github.io/alan/Week1-1/RMarkdown.html "test")
 
 Home:
 - [x] 練習Markdown 
@@ -42,7 +42,8 @@ Home:
 #### Week1-4(7/11)
 
 Class:
-- [ ] 透過dplyr將資料處理成Tidy DATA
+- [x] 透過dplyr將資料處理成Tidy DATA:
+      [永和區空汙和氣候做比較](https://jeff6578.github.io/alan/Week1-4/711.html )
 
 Home:
 
