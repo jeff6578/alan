@@ -42,6 +42,7 @@ Home:
 #### Week1-4(7/11)
 
 Class:
+- [ ] 透過dplyr將資料處理成Tidy DATA
 
 Home:
 
