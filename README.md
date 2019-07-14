@@ -46,6 +46,7 @@ Class:
       [永和區空汙和氣候做比較](https://jeff6578.github.io/alan/Week1-4/711.html )
 
 Home:
+- [x] 練習R語言
 
 #### Week2-1(7/15)
 
