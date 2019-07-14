@@ -5,12 +5,16 @@ sum(a, na.rm=TRUE)
 
 
 
-# 從iris的資料集中，取"Sepal.Length"(花萼長度)這個欄位的資料出來(利用神奇符號$)
+#從iris的資料集中，取"Sepal.Length"(花萼長度)這個欄位的資料出來(利用神奇符號$)
 iris$Sepal.Length  
 iris <- (iris)
 
 ##取iris1~4列的平均數丟到Rowmeans
 RowMeans <- (rowMeans(iris[ , 1:4]))
+
+#取a dataframe裡面c欄裡的d,e,f,g行的資料
+filter(a, c %in% c("d, "e", "f", "g"))
+
 
 #合併dataframe rbind cbind
 rbind(a,b) # rbind()：把兩個data frame，依據row合併起來
@@ -20,6 +24,42 @@ cbind(a,b) # cbind()：把兩個data frame，依據column合併起來
 bind_rows()並bind_cols()返回與第一個輸入相同的類型，數據框tbl_df，或grouped_df。
 a <- bind_cols(YHMLdata,avg)
 
+#$ 
+#只要在data frame名字的後面加上$符號，再加上你要分析的變數名稱，就可以把該變數從data frame裡面拿出來，再把它丟到max函數裡，就可以找這個變數的最大值。
+ max(pop$年底人口數)
+
+
+
+
+#如何刪除行或列
+#https://pcchuang.pixnet.net/blog/post/172393377-%5Br%5D-%E7%9F%A9%E9%99%A3%E7%B7%A8%E4%BF%AE%EF%BC%88%E5%A6%82%E4%BD%95%E5%88%AA%E9%99%A4%E8%A1%8C%E6%88%96%E5%88%97%EF%BC%89
+#刪除a裡數值為3的資料
+a[a$b ==3,]
+##若要找 lbound 為 2 與 4 的資料
+a[a$lbound %in% c(2,4),]
+
+#for迴圈
+#大括弧裡面的指令執行4次
+for (i in (1:4))
+  {
+  b <- b[ , -1]
+  }
+
+#排序欄位大小
+#C的DT裡面排序X4欄位大小，由大到小 #改成FALSE的話是小到大
+c[order(c$X4, decreasing = TRUE), ]
+
+
+
+
 #基本函數
 getwd() 	顯示目前的工作資料夾 
 setwd()	設定工作資料夾
+
+
+#read.xlsx(教學網頁:http://earthworm2016.pixnet.net/blog/post/320495233-r-%E8%B3%87%E6%96%99%E5%8C%AF%E5%87%BA-excel%E6%AA%94)
+ read.xlsx(file ="C:/Users/jeff6/Desktop/Github/alan/Week1-4/107年永和站PM2.5.xlsx",sheetIndex=1,startRow = 3,endRow = 26,header = F,colIndex =3:5,encoding = "UTF-8")
+ 
+ 
+ 
+ 
