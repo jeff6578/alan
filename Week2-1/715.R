@@ -1,0 +1,1291 @@
+---
+  title: "永和區PM2.5和氣象資料比較關係"
+author: "陳哲偉"
+date: "2019年7月11日"
+output: html_document
+---
+  ###### 資料來源 (空氣品質監測網https://taqm.epa.gov.tw/taqm/tw/YearlyDataDownload.aspx)
+  
+  ###### (觀測資料查詢https://e-service.cwb.gov.tw/HistoryDataQuery/index.jsp)
+  
+  # 設定檔案位置和載入套件
+```{r}
+library(dplyr)
+library(ggplot2)
+setwd("C:/Users/jeff6/Desktop/Test1")
+
+
+#--------------------------------------------------------------------------------------台北
+a <- read.csv("空氣品質監測小時值台北.csv")
+##b <- filter(a, 測項.單位. %in% c("溫度 AMB_TEMP (℃)", "風向 WIND_DIREC (degrees)", "細懸浮微粒 PM 2.5  (μg/m 3 )", "相對濕度 RH (percent)" ))
+
+#刪除多的一行(台北的數據)
+a = a[-51, ]
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+TPTEMP <- filter(TEMP[1, ])
+TPWD <- filter(WD[1, ])
+TPPM <- filter(PM[1, ])
+TPRH <- filter(RH[1, ])
+#再和其他的合成一行
+for (i in 2:6) 
+{
+  TPTEMP <- cbind(TPTEMP,filter(TEMP[i, ]))
+  TPWD <- cbind(TPWD,filter(WD[i, ]))
+  TPPM <- cbind(TPPM,filter(PM[i, ]))
+  TPRH <- cbind(TPRH,filter(RH[i, ]))
+}
+
+TPTEMP <- t(TPTEMP)
+TPTEMP <- data.frame(TPTEMP)
+TPWD <- t(TPWD)
+TPWD <- data.frame(TPWD)
+TPPM <- t(TPPM)
+TPPM <- data.frame(TPPM)
+TPRH <- t(TPRH)
+TPRH <- data.frame(TPRH)
+
+
+#合併total
+TPtotal <- bind_cols(TPTEMP,TPWD,TPPM,TPRH) 
+
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+
+TPtotal$TPPM <- factor(TPtotal$TPPM, levels = c(1:50 ), ordered = TRUE )
+TPtotal$TPWD <- factor(TPtotal$TPWD, levels = c(1:360 ), ordered = TRUE )
+
+#散佈圖
+ggplot(data = TPtotal)+
+  geom_point(aes(x=TPPM,y=TPWD,color=TPPM))
+
+#-------------------------------------------------------------------------------台北ggplot  
+
+#------------------------------------------------------------------------------------------新北
+
+a <- read.csv("空氣品質監測小時值新北.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+#刪除多的一行(新北的數據)
+PM = PM[-1, ]
+RH = RH[-1, ]
+TEMP = TEMP[-1, ]
+
+#取數值
+NTTEMP <- filter(TEMP[1, ])
+NTWD <- filter(WD[1, ])
+NTPM <- filter(PM[1, ])
+NTRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:11) 
+{
+  NTTEMP <- cbind(NTTEMP,filter(TEMP[i, ]))
+  NTWD <- cbind(NTWD,filter(WD[i, ]))
+  NTPM <- cbind(NTPM,filter(PM[i, ]))
+  NTRH <- cbind(NTRH,filter(RH[i, ]))
+}
+
+NTTEMP <- t(NTTEMP)
+NTTEMP <- data.frame(NTTEMP)
+NTWD <- t(NTWD)
+NTWD <- data.frame(NTWD)
+NTPM <- t(NTPM)
+NTPM <- data.frame(NTPM)
+NTRH <- t(NTRH)
+NTRH <- data.frame(NTRH)
+
+#合併total
+NTtotal <- bind_cols(NTTEMP,NTWD,NTPM,NTRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+NTtotal$NTPM <- factor(NTtotal$NTPM, levels = c(1:50 ), ordered = TRUE )
+NTtotal$NTWD <- factor(NTtotal$NTWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = NTtotal)+
+  geom_point(aes(x=NTPM,y=NTWD,color=NTPM))
+
+#-------------------------------------------------------------------------------新北ggplot  
+
+#------------------------------------------------------------------------------------------台中
+
+a <- read.csv("空氣品質監測小時值台中.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+TCTEMP <- filter(TEMP[1, ])
+TCWD <- filter(WD[1, ])
+TCPM <- filter(PM[1, ])
+TCRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:5) 
+{
+  TCTEMP <- cbind(TCTEMP,filter(TEMP[i, ]))
+  TCWD <- cbind(TCWD,filter(WD[i, ]))
+  TCPM <- cbind(TCPM,filter(PM[i, ]))
+  TCRH <- cbind(TCRH,filter(RH[i, ]))
+}
+
+TCTEMP <- t(TCTEMP)
+TCTEMP <- data.frame(TCTEMP)
+TCWD <- t(TCWD)
+TCWD <- data.frame(TCWD)
+TCPM <- t(TCPM)
+TCPM <- data.frame(TCPM)
+TCRH <- t(TCRH)
+TCRH <- data.frame(TCRH)
+
+#合併total
+TCtotal <- bind_cols(TCTEMP,TCWD,TCPM,TCRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+TCtotal$TCPM <- factor(TCtotal$TCPM, levels = c(1:50 ), ordered = TRUE )
+TCtotal$TCWD <- factor(TCtotal$TCWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = TCtotal)+
+  geom_point(aes(x=TCPM,y=TCWD,color=TCPM))
+
+#-------------------------------------------------------------------------------台中ggplot    
+
+#------------------------------------------------------------------------------------------台東
+
+a <- read.csv("空氣品質監測小時值台東.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+TTTEMP <- filter(TEMP[1, ])
+TTWD <- filter(WD[1, ])
+TTPM <- filter(PM[1, ])
+TTRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2) 
+{
+  TTTEMP <- cbind(TTTEMP,filter(TEMP[i, ]))
+  TTWD <- cbind(TTWD,filter(WD[i, ]))
+  TTPM <- cbind(TTPM,filter(PM[i, ]))
+  TTRH <- cbind(TTRH,filter(RH[i, ]))
+}
+
+TTTEMP <- t(TTTEMP)
+TTTEMP <- data.frame(TTTEMP)
+TTWD <- t(TTWD)
+TTWD <- data.frame(TTWD)
+TTPM <- t(TTPM)
+TTPM <- data.frame(TTPM)
+TTRH <- t(TTRH)
+TTRH <- data.frame(TTRH)
+
+#合併total
+TTtotal <- bind_cols(TTTEMP,TTWD,TTPM,TTRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+TTtotal$TTPM <- factor(TTtotal$TTPM, levels = c(1:50 ), ordered = TRUE )
+TTtotal$TTWD <- factor(TTtotal$TTWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = TTtotal)+
+  geom_point(aes(x=TTPM,y=TTWD,color=TTPM))
+
+#-------------------------------------------------------------------------------台東ggplot
+
+#------------------------------------------------------------------------------------------台南
+
+a <- read.csv("空氣品質監測小時值台南.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+TNTEMP <- filter(TEMP[1, ])
+TNWD <- filter(WD[1, ])
+TNPM <- filter(PM[1, ])
+TNRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:4) 
+{
+  TNTEMP <- cbind(TNTEMP,filter(TEMP[i, ]))
+  TNWD <- cbind(TNWD,filter(WD[i, ]))
+  TNPM <- cbind(TNPM,filter(PM[i, ]))
+  TNRH <- cbind(TNRH,filter(RH[i, ]))
+}
+
+TNTEMP <- t(TNTEMP)
+TNTEMP <- data.frame(TNTEMP)
+TNWD <- t(TNWD)
+TNWD <- data.frame(TNWD)
+TNPM <- t(TNPM)
+TNPM <- data.frame(TNPM)
+TNRH <- t(TNRH)
+TNRH <- data.frame(TNRH)
+
+#合併total
+TNtotal <- bind_cols(TNTEMP,TNWD,TNPM,TNRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+TNtotal$TNPM <- factor(TNtotal$TNPM, levels = c(1:50 ), ordered = TRUE )
+TNtotal$TNWD <- factor(TNtotal$TNWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = TNtotal)+
+  geom_point(aes(x=TNPM,y=TNWD,color=TNPM))
+
+#-------------------------------------------------------------------------------台南ggplot
+
+#------------------------------------------------------------------------------------------宜蘭
+
+a <- read.csv("空氣品質監測小時值宜蘭.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+ILTEMP <- filter(TEMP[1, ])
+ILWD <- filter(WD[1, ])
+ILPM <- filter(PM[1, ])
+ILRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2) 
+{
+  ILTEMP <- cbind(ILTEMP,filter(TEMP[i, ]))
+  ILWD <- cbind(ILWD,filter(WD[i, ]))
+  ILPM <- cbind(ILPM,filter(PM[i, ]))
+  ILRH <- cbind(ILRH,filter(RH[i, ]))
+}
+
+ILTEMP <- t(ILTEMP)
+ILTEMP <- data.frame(ILTEMP)
+ILWD <- t(ILWD)
+ILWD <- data.frame(ILWD)
+ILPM <- t(ILPM)
+ILPM <- data.frame(ILPM)
+ILRH <- t(ILRH)
+ILRH <- data.frame(ILRH)
+
+#合併total
+ILtotal <- bind_cols(ILTEMP,ILWD,ILPM,ILRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+ILtotal$ILPM <- factor(ILtotal$ILPM, levels = c(1:50 ), ordered = TRUE )
+ILtotal$ILWD <- factor(ILtotal$ILWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = ILtotal)+
+  geom_point(aes(x=ILPM,y=ILWD,color=ILPM))
+
+#-------------------------------------------------------------------------------宜蘭ggplot
+
+#------------------------------------------------------------------------------------------花蓮
+
+a <- read.csv("空氣品質監測小時值花蓮.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+HLTEMP <- filter(TEMP[1, ])
+HLWD <- filter(WD[1, ])
+HLPM <- filter(PM[1, ])
+HLRH <- filter(RH[1, ])
+
+
+HLTEMP <- t(HLTEMP)
+HLTEMP <- data.frame(HLTEMP)
+HLWD <- t(HLWD)
+HLWD <- data.frame(HLWD)
+HLPM <- t(HLPM)
+HLPM <- data.frame(HLPM)
+HLRH <- t(HLRH)
+HLRH <- data.frame(HLRH)
+
+#合併total
+HLtotal <- bind_cols(HLTEMP,HLWD,HLPM,HLRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+HLtotal$HLPM <- factor(HLtotal$HLPM, levels = c(1:50 ), ordered = TRUE )
+HLtotal$HLWD <- factor(HLtotal$HLWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = HLtotal)+
+  geom_point(aes(x=HLPM,y=HLWD,color=HLPM))
+
+#-------------------------------------------------------------------------------花蓮ggplot
+
+#------------------------------------------------------------------------------------------金門
+
+a <- read.csv("空氣品質監測小時值金門.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+KMTEMP <- filter(TEMP[1, ])
+KMWD <- filter(WD[1, ])
+KMPM <- filter(PM[1, ])
+KMRH <- filter(RH[1, ])
+
+
+KMTEMP <- t(KMTEMP)
+KMTEMP <- data.frame(KMTEMP)
+KMWD <- t(KMWD)
+KMWD <- data.frame(KMWD)
+KMPM <- t(KMPM)
+KMPM <- data.frame(KMPM)
+KMRH <- t(KMRH)
+KMRH <- data.frame(KMRH)
+
+#合併total
+KMtotal <- bind_cols(KMTEMP,KMWD,KMPM,KMRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+KMtotal$KMPM <- factor(KMtotal$KMPM, levels = c(1:50 ), ordered = TRUE )
+KMtotal$KMWD <- factor(KMtotal$KMWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = KMtotal)+
+  geom_point(aes(x=KMPM,y=KMWD,color=KMPM))
+
+#-------------------------------------------------------------------------------金門ggplot
+
+#------------------------------------------------------------------------------------------南投
+
+a <- read.csv("空氣品質監測小時值南投.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+NTTEMP <- filter(TEMP[1, ])
+NTWD <- filter(WD[1, ])
+NTPM <- filter(PM[1, ])
+NTRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2) 
+{
+  NTTEMP <- cbind(NTTEMP,filter(TEMP[i, ]))
+  NTWD <- cbind(NTWD,filter(WD[i, ]))
+  NTPM <- cbind(NTPM,filter(PM[i, ]))
+  NTRH <- cbind(NTRH,filter(RH[i, ]))
+}
+
+NTTEMP <- t(NTTEMP)
+NTTEMP <- data.frame(NTTEMP)
+NTWD <- t(NTWD)
+NTWD <- data.frame(NTWD)
+NTPM <- t(NTPM)
+NTPM <- data.frame(NTPM)
+NTRH <- t(NTRH)
+NTRH <- data.frame(NTRH)
+
+#合併total
+NTtotal <- bind_cols(NTTEMP,NTWD,NTPM,NTRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+NTtotal$NTPM <- factor(NTtotal$NTPM, levels = c(1:50 ), ordered = TRUE )
+NTtotal$NTWD <- factor(NTtotal$NTWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = NTtotal)+
+  geom_point(aes(x=NTPM,y=NTWD,color=NTPM))
+
+#-------------------------------------------------------------------------------南投ggplot
+
+#------------------------------------------------------------------------------------------屏東
+
+a <- read.csv("空氣品質監測小時值屏東.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+PTTEMP <- filter(TEMP[1, ])
+PTWD <- filter(WD[1, ])
+PTPM <- filter(PM[1, ])
+PTRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:3) 
+{
+  PTTEMP <- cbind(PTTEMP,filter(TEMP[i, ]))
+  PTWD <- cbind(PTWD,filter(WD[i, ]))
+  PTPM <- cbind(PTPM,filter(PM[i, ]))
+  PTRH <- cbind(PTRH,filter(RH[i, ]))
+}
+
+PTTEMP <- t(PTTEMP)
+PTTEMP <- data.frame(PTTEMP)
+PTWD <- t(PTWD)
+PTWD <- data.frame(PTWD)
+PTPM <- t(PTPM)
+PTPM <- data.frame(PTPM)
+PTRH <- t(PTRH)
+PTRH <- data.frame(PTRH)
+
+#合併total
+PTtotal <- bind_cols(PTTEMP,PTWD,PTPM,PTRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+PTtotal$PTPM <- factor(PTtotal$PTPM, levels = c(1:50 ), ordered = TRUE )
+PTtotal$PTWD <- factor(PTtotal$PTWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = PTtotal)+
+  geom_point(aes(x=PTPM,y=PTWD,color=PTPM))
+
+#-------------------------------------------------------------------------------屏東ggplot
+
+#------------------------------------------------------------------------------------------苗栗
+
+a <- read.csv("空氣品質監測小時值苗栗.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+MLTEMP <- filter(TEMP[1, ])
+MLWD <- filter(WD[1, ])
+MLPM <- filter(PM[1, ])
+MLRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:3) 
+{
+  MLTEMP <- cbind(MLTEMP,filter(TEMP[i, ]))
+  MLWD <- cbind(MLWD,filter(WD[i, ]))
+  MLPM <- cbind(MLPM,filter(PM[i, ]))
+  MLRH <- cbind(MLRH,filter(RH[i, ]))
+}
+
+MLTEMP <- t(MLTEMP)
+MLTEMP <- data.frame(MLTEMP)
+MLWD <- t(MLWD)
+MLWD <- data.frame(MLWD)
+MLPM <- t(MLPM)
+MLPM <- data.frame(MLPM)
+MLRH <- t(MLRH)
+MLRH <- data.frame(MLRH)
+
+#合併total
+MLtotal <- bind_cols(MLTEMP,MLWD,MLPM,MLRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+MLtotal$MLPM <- factor(MLtotal$MLPM, levels = c(1:50 ), ordered = TRUE )
+MLtotal$MLWD <- factor(MLtotal$MLWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = MLtotal)+
+  geom_point(aes(x=MLPM,y=MLWD,color=MLPM))
+
+#-------------------------------------------------------------------------------苗栗ggplot
+
+#------------------------------------------------------------------------------------------桃園
+
+a <- read.csv("空氣品質監測小時值桃園.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+TYTEMP <- filter(TEMP[1, ])
+TYWD <- filter(WD[1, ])
+TYPM <- filter(PM[1, ])
+TYRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:6) 
+{
+  TYTEMP <- cbind(TYTEMP,filter(TEMP[i, ]))
+  TYWD <- cbind(TYWD,filter(WD[i, ]))
+  TYPM <- cbind(TYPM,filter(PM[i, ]))
+  TYRH <- cbind(TYRH,filter(RH[i, ]))
+}
+
+TYTEMP <- t(TYTEMP)
+TYTEMP <- data.frame(TYTEMP)
+TYWD <- t(TYWD)
+TYWD <- data.frame(TYWD)
+TYPM <- t(TYPM)
+TYPM <- data.frame(TYPM)
+TYRH <- t(TYRH)
+TYRH <- data.frame(TYRH)
+
+#合併total
+TYtotal <- bind_cols(TYTEMP,TYWD,TYPM,TYRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+TYtotal$TYPM <- factor(TYtotal$TYPM, levels = c(1:50 ), ordered = TRUE )
+TYtotal$TYWD <- factor(TYtotal$TYWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = TYtotal)+
+  geom_point(aes(x=TYPM,y=TYWD,color=TYPM))
+
+#-------------------------------------------------------------------------------桃園ggplot
+
+#------------------------------------------------------------------------------------------連江
+
+a <- read.csv("空氣品質監測小時值連江.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+LCTEMP <- filter(TEMP[1, ])
+LCWD <- filter(WD[1, ])
+LCPM <- filter(PM[1, ])
+LCRH <- filter(RH[1, ])
+
+
+LCTEMP <- t(LCTEMP)
+LCTEMP <- data.frame(LCTEMP)
+LCWD <- t(LCWD)
+LCWD <- data.frame(LCWD)
+LCPM <- t(LCPM)
+LCPM <- data.frame(LCPM)
+LCRH <- t(LCRH)
+LCRH <- data.frame(LCRH)
+
+#合併total
+LCtotal <- bind_cols(LCTEMP,LCWD,LCPM,LCRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+LCtotal$LCPM <- factor(LCtotal$LCPM, levels = c(1:50 ), ordered = TRUE )
+LCtotal$LCWD <- factor(LCtotal$LCWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = LCtotal)+
+  geom_point(aes(x=LCPM,y=LCWD,color=LCPM))
+
+#-------------------------------------------------------------------------------連江ggplot
+
+#------------------------------------------------------------------------------------------高雄
+
+a <- read.csv("空氣品質監測小時值高雄.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除多的一行(高雄的數據)
+WD = WD[-8, ]
+RH = RH[-8, ]
+TEMP = TEMP[-8, ]
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+KHTEMP <- filter(TEMP[1, ])
+KHWD <- filter(WD[1, ])
+KHPM <- filter(PM[1, ])
+KHRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:11) 
+{
+  KHTEMP <- cbind(KHTEMP,filter(TEMP[i, ]))
+  KHWD <- cbind(KHWD,filter(WD[i, ]))
+  KHPM <- cbind(KHPM,filter(PM[i, ]))
+  KHRH <- cbind(KHRH,filter(RH[i, ]))
+}
+
+KHTEMP <- t(KHTEMP)
+KHTEMP <- data.frame(KHTEMP)
+KHWD <- t(KHWD)
+KHWD <- data.frame(KHWD)
+KHPM <- t(KHPM)
+KHPM <- data.frame(KHPM)
+KHRH <- t(KHRH)
+KHRH <- data.frame(KHRH)
+
+#合併total
+KHtotal <- bind_cols(KHTEMP,KHWD,KHPM,KHRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+KHtotal$KHPM <- factor(KHtotal$KHPM, levels = c(1:50 ), ordered = TRUE )
+KHtotal$KHWD <- factor(KHtotal$KHWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = KHtotal)+
+  geom_point(aes(x=KHPM,y=KHWD,color=KHPM))
+
+#-------------------------------------------------------------------------------高雄ggplot
+
+#------------------------------------------------------------------------------------------基隆
+
+a <- read.csv("空氣品質監測小時值基隆.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+KLTEMP <- filter(TEMP[1, ])
+KLWD <- filter(WD[1, ])
+KLPM <- filter(PM[1, ])
+KLRH <- filter(RH[1, ])
+
+
+KLTEMP <- t(KLTEMP)
+KLTEMP <- data.frame(KLTEMP)
+KLWD <- t(KLWD)
+KLWD <- data.frame(KLWD)
+KLPM <- t(KLPM)
+KLPM <- data.frame(KLPM)
+KLRH <- t(KLRH)
+KLRH <- data.frame(KLRH)
+
+#合併total
+KLtotal <- bind_cols(KLTEMP,KLWD,KLPM,KLRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+KLtotal$KLPM <- factor(KLtotal$KLPM, levels = c(1:50 ), ordered = TRUE )
+KLtotal$KLWD <- factor(KLtotal$KLWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = KLtotal)+
+  geom_point(aes(x=KLPM,y=KLWD,color=KLPM))
+
+#-------------------------------------------------------------------------------基隆ggplot
+
+#------------------------------------------------------------------------------------------雲林
+
+a <- read.csv("空氣品質監測小時值雲林.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+YLTEMP <- filter(TEMP[1, ])
+YLWD <- filter(WD[1, ])
+YLPM <- filter(PM[1, ])
+YLRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:4) 
+{
+  YLTEMP <- cbind(YLTEMP,filter(TEMP[i, ]))
+  YLWD <- cbind(YLWD,filter(WD[i, ]))
+  YLPM <- cbind(YLPM,filter(PM[i, ]))
+  YLRH <- cbind(YLRH,filter(RH[i, ]))
+}
+
+YLTEMP <- t(YLTEMP)
+YLTEMP <- data.frame(YLTEMP)
+YLWD <- t(YLWD)
+YLWD <- data.frame(YLWD)
+YLPM <- t(YLPM)
+YLPM <- data.frame(YLPM)
+YLRH <- t(YLRH)
+YLRH <- data.frame(YLRH)
+
+#合併total
+YLtotal <- bind_cols(YLTEMP,YLWD,YLPM,YLRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+YLtotal$YLPM <- factor(YLtotal$YLPM, levels = c(1:50 ), ordered = TRUE )
+YLtotal$YLWD <- factor(YLtotal$YLWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = YLtotal)+
+  geom_point(aes(x=YLPM,y=YLWD,color=YLPM))
+
+#-------------------------------------------------------------------------------雲林ggplot
+
+#------------------------------------------------------------------------------------------新竹市
+
+a <- read.csv("空氣品質監測小時值新竹市.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+HCTTEMP <- filter(TEMP[1, ])
+HCTWD <- filter(WD[1, ])
+HCTPM <- filter(PM[1, ])
+HCTRH <- filter(RH[1, ])
+
+
+HCTTEMP <- t(HCTTEMP)
+HCTTEMP <- data.frame(HCTTEMP)
+HCTWD <- t(HCTWD)
+HCTWD <- data.frame(HCTWD)
+HCTPM <- t(HCTPM)
+HCTPM <- data.frame(HCTPM)
+HCTRH <- t(HCTRH)
+HCTRH <- data.frame(HCTRH)
+
+#合併total
+HCTtotal <- bind_cols(HCTTEMP,HCTWD,HCTPM,HCTRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+HCTtotal$HCTPM <- factor(HCTtotal$HCTPM, levels = c(1:50 ), ordered = TRUE )
+HCTtotal$HCTWD <- factor(HCTtotal$HCTWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = HCTtotal)+
+  geom_point(aes(x=HCTPM,y=HCTWD,color=HCTPM))
+
+#-------------------------------------------------------------------------------新竹市ggplot
+
+#------------------------------------------------------------------------------------------新竹縣
+
+a <- read.csv("空氣品質監測小時值新竹縣.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+HCHTEMP <- filter(TEMP[1, ])
+HCHWD <- filter(WD[1, ])
+HCHPM <- filter(PM[1, ])
+HCHRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2) 
+{
+  HCHTEMP <- cbind(HCHTEMP,filter(TEMP[i, ]))
+  HCHWD <- cbind(HCHWD,filter(WD[i, ]))
+  HCHPM <- cbind(HCHPM,filter(PM[i, ]))
+  HCHRH <- cbind(HCHRH,filter(RH[i, ]))
+}
+
+HCHTEMP <- t(HCHTEMP)
+HCHTEMP <- data.frame(HCHTEMP)
+HCHWD <- t(HCHWD)
+HCHWD <- data.frame(HCHWD)
+HCHPM <- t(HCHPM)
+HCHPM <- data.frame(HCHPM)
+HCHRH <- t(HCHRH)
+HCHRH <- data.frame(HCHRH)
+
+#合併total
+HCHtotal <- bind_cols(HCHTEMP,HCHWD,HCHPM,HCHRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+HCHtotal$HCHPM <- factor(HCHtotal$HCHPM, levels = c(1:50 ), ordered = TRUE )
+HCHtotal$HCHWD <- factor(HCHtotal$HCHWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = HCHtotal)+
+  geom_point(aes(x=HCHPM,y=HCHWD,color=HCHPM))
+
+#-------------------------------------------------------------------------------新竹縣ggplot
+
+#------------------------------------------------------------------------------------------嘉義市
+
+a <- read.csv("空氣品質監測小時值嘉義市.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+CICTEMP <- filter(TEMP[1, ])
+CICWD <- filter(WD[1, ])
+CICPM <- filter(PM[1, ])
+CICRH <- filter(RH[1, ])
+
+
+CICTEMP <- t(CICTEMP)
+CICTEMP <- data.frame(CICTEMP)
+CICWD <- t(CICWD)
+CICWD <- data.frame(CICWD)
+CICPM <- t(CICPM)
+CICPM <- data.frame(CICPM)
+CICRH <- t(CICRH)
+CICRH <- data.frame(CICRH)
+
+#合併total
+CICtotal <- bind_cols(CICTEMP,CICWD,CICPM,CICRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+CICtotal$CICPM <- factor(CICtotal$CICPM, levels = c(1:50 ), ordered = TRUE )
+CICtotal$CICWD <- factor(CICtotal$CICWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = CICtotal)+
+  geom_point(aes(x=CICPM,y=CICWD,color=CICPM))
+
+#-------------------------------------------------------------------------------嘉義市ggplot
+
+#------------------------------------------------------------------------------------------嘉義縣
+
+a <- read.csv("空氣品質監測小時值嘉義縣.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+CIHTEMP <- filter(TEMP[1, ])
+CIHWD <- filter(WD[1, ])
+CIHPM <- filter(PM[1, ])
+CIHRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2) 
+{
+  CIHTEMP <- cbind(CIHTEMP,filter(TEMP[i, ]))
+  CIHWD <- cbind(CIHWD,filter(WD[i, ]))
+  CIHPM <- cbind(CIHPM,filter(PM[i, ]))
+  CIHRH <- cbind(CIHRH,filter(RH[i, ]))
+}
+
+CIHTEMP <- t(CIHTEMP)
+CIHTEMP <- data.frame(CIHTEMP)
+CIHWD <- t(CIHWD)
+CIHWD <- data.frame(CIHWD)
+CIHPM <- t(CIHPM)
+CIHPM <- data.frame(CIHPM)
+CIHRH <- t(CIHRH)
+CIHRH <- data.frame(CIHRH)
+
+#合併total
+CIHtotal <- bind_cols(CIHTEMP,CIHWD,CIHPM,CIHRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+CIHtotal$CIHPM <- factor(CIHtotal$CIHPM, levels = c(1:50 ), ordered = TRUE )
+CIHtotal$CIHWD <- factor(CIHtotal$CIHWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = CIHtotal)+
+  geom_point(aes(x=CIHPM,y=CIHWD,color=CIHPM))
+
+#-------------------------------------------------------------------------------嘉義縣ggplot
+
+#------------------------------------------------------------------------------------------彰化
+
+a <- read.csv("空氣品質監測小時值彰化.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+CHTEMP <- filter(TEMP[1, ])
+CHWD <- filter(WD[1, ])
+CHPM <- filter(PM[1, ])
+CHRH <- filter(RH[1, ])
+
+#再和其他的合成一行
+for (i in 2:3) 
+{
+  CHTEMP <- cbind(CHTEMP,filter(TEMP[i, ]))
+  CHWD <- cbind(CHWD,filter(WD[i, ]))
+  CHPM <- cbind(CHPM,filter(PM[i, ]))
+  CHRH <- cbind(CHRH,filter(RH[i, ]))
+}
+
+CHTEMP <- t(CHTEMP)
+CHTEMP <- data.frame(CHTEMP)
+CHWD <- t(CHWD)
+CHWD <- data.frame(CHWD)
+CHPM <- t(CHPM)
+CHPM <- data.frame(CHPM)
+CHRH <- t(CHRH)
+CHRH <- data.frame(CHRH)
+
+#合併total
+CHtotal <- bind_cols(CHTEMP,CHWD,CHPM,CHRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+CHtotal$CHPM <- factor(CHtotal$CHPM, levels = c(1:50 ), ordered = TRUE )
+CHtotal$CHWD <- factor(CHtotal$CHWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = CHtotal)+
+  geom_point(aes(x=CHPM,y=CHWD,color=CHPM))
+
+#-------------------------------------------------------------------------------彰化ggplot
+
+#------------------------------------------------------------------------------------------澎湖
+
+a <- read.csv("空氣品質監測小時值澎湖.csv")
+
+
+#選出需要的測項
+TEMP = filter(a, 測項.單位. %in% "溫度 AMB_TEMP (℃)")
+WD = filter(a, 測項.單位. %in% "風向 WIND_DIREC (degrees)")
+PM = filter(a, 測項.單位. %in% "細懸浮微粒 PM 2.5  (μg/m 3 )")
+RH = filter(a, 測項.單位. %in% "相對濕度 RH (percent)")
+
+#刪除1~6不要的數據
+for (x in (1:6))
+{
+  TEMP <- TEMP[ ,-1]
+  WD <- WD[ ,-1]
+  PM <- PM[ ,-1]
+  RH <- RH[ ,-1]
+} 
+
+
+
+#取數值
+PHTEMP <- filter(TEMP[1, ])
+PHWD <- filter(WD[1, ])
+PHPM <- filter(PM[1, ])
+PHRH <- filter(RH[1, ])
+
+
+PHTEMP <- t(PHTEMP)
+PHTEMP <- data.frame(PHTEMP)
+PHWD <- t(PHWD)
+PHWD <- data.frame(PHWD)
+PHPM <- t(PHPM)
+PHPM <- data.frame(PHPM)
+PHRH <- t(PHRH)
+PHRH <- data.frame(PHRH)
+
+#合併total
+PHtotal <- bind_cols(PHTEMP,PHWD,PHPM,PHRH) 
+
+#照數字大小排列!!沒做的話,排序會怪怪的
+PHtotal$PHPM <- factor(PHtotal$PHPM, levels = c(1:50 ), ordered = TRUE )
+PHtotal$PHWD <- factor(PHtotal$PHWD, levels = c(1:360 ), ordered = TRUE )
+
+
+#散佈圖
+ggplot(data = PHtotal)+
+  geom_point(aes(x=PHPM,y=PHWD,color=PHPM))
+
+#-------------------------------------------------------------------------------澎湖ggplot
+
