@@ -51,6 +51,8 @@ Home:
 #### Week2-1(7/15)
 
 Class:
+- [x] 使用Rggplot2進行資料視覺化:
+      [各縣市PM2.5和風向的散佈圖](https://jeff6578.github.io/alan/Week2-1/715.html)
 
 Home:
 
