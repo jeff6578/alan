@@ -12,7 +12,7 @@ output: html_document
 ```{r}
 library(dplyr)
 library(ggplot2)
-setwd("C:/Users/jeff6/Desktop/Test1")
+setwd("C:/Users/jeff6/Desktop/Github/alan/Week2-1")
 
 
 #--------------------------------------------------------------------------------------¥x¥_
