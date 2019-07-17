@@ -73,6 +73,10 @@ setwd()	設定工作資料夾
 #read.xlsx(教學網頁:http://earthworm2016.pixnet.net/blog/post/320495233-r-%E8%B3%87%E6%96%99%E5%8C%AF%E5%87%BA-excel%E6%AA%94)
  read.xlsx(file ="C:/Users/jeff6/Desktop/Github/alan/Week1-4/107年永和站PM2.5.xlsx",sheetIndex=1,startRow = 3,endRow = 26,header = F,colIndex =3:5,encoding = "UTF-8")
  
- 
+#先把數值轉成CHAR再轉NUM,才不會出現數據裡面沒有數字,算平均值的錯誤
+
+TPPM2.5avg <- as.numeric(as.character(TPPM$TPPM, na.rm = TRUE))
+TPPM2.5avg <- data.frame(TPPM2.5avg)
+TPPM2.5avg <- (colMeans(TPPM2.5avg, na.rm = TRUE))
  
  
