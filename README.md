@@ -43,7 +43,7 @@ Home:
 
 Class:
 - [x] 透過dplyr將資料處理成Tidy DATA:
-      [永和區空汙和氣候做比較](https://jeff6578.github.io/alan/Week1-4/711.html )
+      [HW1永和區空汙和氣候做比較](https://jeff6578.github.io/alan/Week1-4/711.html )
 
 Home:
 - [x] 練習R語言
@@ -52,9 +52,10 @@ Home:
 
 Class:
 - [x] 使用Rggplot2進行資料視覺化:
-      [各縣市PM2.5和風向的散佈圖](https://jeff6578.github.io/alan/Week2-1/715.html)
+      [HW2各縣市PM2.5和風向的比較](https://jeff6578.github.io/alan/Week2-1/715.html)
 
 Home:
+- [x] 練習ggplot畫圖
 
 #### Week2-4(7/18)
 
