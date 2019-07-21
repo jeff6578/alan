@@ -60,8 +60,12 @@ Home:
 #### Week2-4(7/18)
 
 Class:
+- [x] 使用文字雲資料視覺化:
+      [HW3西遊記文字雲](https://jeff6578.github.io/alan/Week2-4/718.html)
 
 Home:
+- [x] 練習段詞、文字雲
+
 
 #### Week3-1(7/22)
 
