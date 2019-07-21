@@ -4,11 +4,6 @@ library(jiebaR)
 library(jiebaRD)
 library(wordcloud2)
 
-library(text2vec)
-library(stringr)
-library(tidytext)
-library(rvest)
-
 #讀文檔
 setwd("C:/Users/jeff6/Desktop/Github/alan/Week2-4")
 data <- readChar("CUG.txt",720000)
@@ -37,9 +32,7 @@ wordcloud2(x,
            backgroundColor = "black",
            shape = "triangle")
 
-#關鍵字
-keys <- worker("keywords",topn=5)
-vector_keywords(x,keys)
+
 #----------------------------------------------------------------------------底
 #由大到小排序
 head(x[order(x$Freq,decreasing = TRUE),])
@@ -50,6 +43,10 @@ data1 <- str_trim(data1, side = c("both", "left", "right"))
 
 #取前50
 x <- sort(table(cutter[data]),decreasing = T)[1:50]
+
+#關鍵字
+keys <- worker("keywords",topn=5)
+vector_keywords(x,keys)
 
 #---------------------------------------------------------------參考
 
