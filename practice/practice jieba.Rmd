@@ -1,0 +1,86 @@
+#用法
+work <- worker() #用到worker()函数，赋值给work
+work["杭州的四月真美丽，想到西湖边吹吹风。"] #方式一
+work <= "杭州的四月真美丽，想到西湖边吹吹风。" #方式二
+segment( "杭州的四月真美丽，想到西湖边吹吹风" , work ) #方式三
+
+
+#斷詞實作
+cutter["這是一段測試用文字，請不要再戰長庚資管了"]
+
+#詞性判別
+tagger <- worker("tag")
+tagger["這是一段測試用文字，請不要再戰長庚資管了"]
+
+#新增自訂詞彙
+new_user_word(cutter,'長庚資管',"n")
+
+cutter["這是一段測試用文字，請不要再戰長庚資管了"]
+
+
+
+
+## 不分行輸出
+cutter[post_title] 
+
+cutter$bylines<-T
+cutter[post_title] ## 分行輸出
+
+#看a出現頻率
+freq(segment(a,cutter))
+
+sort(table(cutter[post_title]),decreasing = T)
+
+#1 清除標點符號, 數字
+
+d.corpus <- tm_map(d.corpus, removePunctuation)
+d.corpus <- tm_map(d.corpus, removeNumbers)
+#2 清除大小寫英文與數字
+d.corpus <- tm_map(d.corpus, function(word) {
+    gsub("[A-Za-z0-9]", "", word)
+})
+
+
+#在默認詞典禮新增新的
+new_
+
+
+
+--------------------------------------------------------------------------------------
+#文字雲wordcloud
+
+wordcloud(
+  words = x[,1], # 或x$Var1
+  freq =  x$Freq, 
+  scale = c(2,.1), # 給定文字尺寸的區間（向量）
+  random.order = FALSE,# 關閉文字隨機顯示 按順序
+  ordered.colors = FALSE,#關閉配色順序
+  rot.per = FALSE,#關閉文字轉角度
+  min.freq = 4,# 定義最小freq數字 
+  colors = brewer.pal(8,"Dark2")
+)
+
+#min.freq 將決定文字多寡
+#scale 調整畫面可容納字數的多寡 字越小 可容納就越多
+#前述參數請自行調整
+#出現Error in plot.new() : figure margins too large 請重置margins par(mar=c(1,1,1,1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

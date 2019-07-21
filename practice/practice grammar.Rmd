@@ -1,8 +1,11 @@
+#清空list
+rm(list=ls())
+
+
 #注意到我們在sum()函式裡面，多加一個參數na.rm=TRUE。
 #其中，na.rm意味著“remove NA”，表示若資料裡面有遺漏值NA，會把它忽略，對剩下的資料進行加總。
 a <- c(1, 2, 3, 5, 8, 13, 21, NA, 55)
 sum(a, na.rm=TRUE)
-
 
 
 #從iris的資料集中，取"Sepal.Length"(花萼長度)這個欄位的資料出來(利用神奇符號$)
@@ -19,6 +22,8 @@ filter(a, b %in% c("d, "e", "f", "g"))
 #新增一欄叫日期,1~365的data
 final$日期 <- c(1:365)
 
+#改名稱
+rename( , , )
 
 
 #合併dataframe rbind cbind
@@ -79,4 +84,36 @@ TPPM2.5avg <- as.numeric(as.character(TPPM$TPPM, na.rm = TRUE))
 TPPM2.5avg <- data.frame(TPPM2.5avg)
 TPPM2.5avg <- (colMeans(TPPM2.5avg, na.rm = TRUE))
  
- 
+#爬蟲
+library(rvest)
+
+read_html("https://www.dcard.tw/topics/%E7%B3%BB%E5%AD%B8%E6%9C%83")
+
+doc <- read_html("https://www.dcard.tw/topics/%E7%B3%BB%E5%AD%B8%E6%9C%83")
+doc %>% html_nodes(".PostEntry_root_V6g0rd a")# 取得 css 路徑下的所有節點
+
+
+doc_links <- doc %>% html_nodes(".PostEntry_root_V6g0rd") %>% html_attr("href") # 取得 href 屬性
+
+read_html(doc_links[1])
+
+
+for (i in (1:30))
+{
+  links_total[i] <- paste("https://www.dcard.tw", doc_links[i],sep = "")
+}
+
+head(links_total)
+
+
+library(httr)
+
+raw_data <- GET("https://www.dcard.tw/_api/search/posts?field=topics&query=%E7%B3%BB%E5%AD%B8%E6%9C%83&sort=like&offset=30&since=0")
+
+listdata <- content(raw_data)
+
+
+data.frame(content(raw_data))
+
+
+
