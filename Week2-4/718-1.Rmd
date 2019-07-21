@@ -1,3 +1,12 @@
+---
+title: "西遊記文字雲"
+author: "陳哲偉"
+date: "2019年7月18日"
+output: html_document
+---
+#### 目的:找西遊記中師父和徒弟的相關詞和出現最多的關鍵詞
+###### 資料來源 [小說文字檔](http://www.solidfiles.com/d/a3187044a8/),[參考資料](https://zhuanlan.zhihu.com/p/33010506)
+
 # 載入套件
 ```{r}
 library(jiebaR)
@@ -67,13 +76,13 @@ relation = word_vectors["師父", , drop = FALSE] +
   word_vectors["徒弟", , drop = FALSE]
 ```
 
-# 和師父、徒弟相關性前十四個詞
+# **和師父、徒弟相關性前十四個詞**
 ```{r}
 cos_sim = sim2(x = word_vectors, y = relation, method = "cosine", norm = "l2")
 head(sort(cos_sim[,1], decreasing = TRUE), 14)
 ```
 
-# 文字雲
+# **文字雲**
 ```{r}
 z <- sort(table(x),decreasing = T)[1:100]#排序取前100
 z <- data.frame(z)#轉成dataframe

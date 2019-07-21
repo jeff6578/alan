@@ -26,7 +26,6 @@ x <- data.frame(x)
 #文字雲
 wordcloud2(x,
            size = 2,
-           fontFamily = "微软雅黑",
            color = "random-light",
            backgroundColor = "black",
            shape = "triangle")

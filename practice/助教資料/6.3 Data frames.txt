@@ -1,0 +1,53 @@
+6.3 Data frames
+Time series are often ordered in data frames. A data
+frame is a matrix with names above the columns.
+This is nice, because you can call and use one of the
+columns without knowing in which position it is.
+1 > t = data.frame(x = c(11,12,14),
+2 y = c(19,20,21), z = c(10,9,7))
+3 > t
+4 x y z
+5 1 11 19 10
+6 2 12 20 9
+7 3 14 21 7
+8 > mean(t$z)
+6
+9 [1] 8.666667
+10 > mean(t[["z"]])
+11 [1] 8.666667
+¡E In lines 1-2 a typical data frame called t is
+constructed. Its columns have the names x, y and z.
+¡E Line 8-11 show two ways of how you can select the
+column called z from the data frame called t.
+ToDo
+Make a script file which constructs three random
+normal vectors of length 100. Call these vectors x1,
+x2 and x3. Make a data frame called t with three
+columns (called a, b and c) containing respectively
+x1, x1+x2 and x1+x2+x3. Call plot(t) for this
+data frame. Can you understand the results? Rerun this script a few times.
+6.4 Lists
+Another basic structure in R is a list. The main advantage of lists is that the ¡§columns" (they¡¦re not
+really ordered in columns any more, but are more a
+collection of vectors) don¡¦t have to be of the same
+length, unlike matrices and data frames.
+1 > L = list(one=1, two=c(1,2),
+2 five=seq(0, 1, length=5))
+3 > L
+4 $one
+5 [1] 1
+6 $two
+7 [1] 1 2
+8 $five
+9 [1] 0.00 0.25 0.50 0.75 1.00
+10 > names(L)
+11 [1] "one" "two" "five"
+12 > L$five + 10
+13 [1] 10.00 10.25 10.50 10.75 11.00
+¡E Lines 1-2 construct a list with names and values.
+The list also appears in the workspace window.
+¡E Lines 3-9 show a typical printing (after pressing L
+ENTER).
+¡E Line 10 illustrates how to find out what¡¦s in the
+list.
+¡E Line 12 shows how to use the numbers
