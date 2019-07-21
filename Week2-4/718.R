@@ -7,7 +7,6 @@ library(wordcloud2)
 #讀文檔
 setwd("C:/Users/jeff6/Desktop/Github/alan/Week2-4")
 data <- readChar("CUG.txt",720000)
-
 str(data)
 
 
