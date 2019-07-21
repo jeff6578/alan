@@ -61,7 +61,7 @@ Home:
 
 Class:
 - [x] 使用文字雲資料視覺化:
-      [HW3西遊記文字雲](https://jeff6578.github.io/alan/Week2-4/718.html)
+      [HW3西遊記文字雲](https://jeff6578.github.io/alan/Week2-4/718-1.html)
 
 Home:
 - [x] 練習段詞、文字雲
