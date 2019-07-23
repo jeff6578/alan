@@ -8,7 +8,7 @@ library(Matrix)
 ### 爬蟲
 
 links <- read_html('https://www.ptt.cc/bbs/LoL/index10004.html') %>%
-  html_nodes('div.title a') %>%     ##抓網頁裡面每個連結的尾巴
+  html_nodes('.title a') %>%     ##抓網頁裡面每個連結的尾巴
   html_attrs %>%
   as.character     ##把list轉乘char
 
