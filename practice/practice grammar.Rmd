@@ -1,6 +1,10 @@
 #清空list
 rm(list=ls())
-
+#存檔、讀檔
+save(city, file="city.rds") ##保留單個
+save(city, country, file="1.RData") ##保留多個
+save.image(file="1.RData")  ##保留全部
+load(file="1.RData")  ##讀檔
 
 #注意到我們在sum()函式裡面，多加一個參數na.rm=TRUE。
 #其中，na.rm意味著“remove NA”，表示若資料裡面有遺漏值NA，會把它忽略，對剩下的資料進行加總。
