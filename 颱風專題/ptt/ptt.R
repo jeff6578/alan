@@ -49,11 +49,6 @@ d.corpus <- Corpus(VectorSource(data)) %>% # Corpus(VectorSource())的input是li
   })
 
 
-for (i in 2:56)#------------------------------------------------------------------------看d.corpus的elements有幾個
-{
-  d.corpus <- paste0(d.corpus[1], d.corpus[i])#全部文章連起來
-}
-
 # ----------------------------------------------------------------------------------------開始斷詞
 data <- as.character(d.corpus)
 cutter <- worker()

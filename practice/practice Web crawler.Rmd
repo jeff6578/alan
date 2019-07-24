@@ -1,0 +1,26 @@
+#讀檔
+links <- read_html('https://www.ptt.cc/bbs/LoL/index10004.html') %>%
+  html_nodes('div.title a') %>%     ##抓網頁裡面每個連結的尾巴
+  html_attrs %>%
+  as.character     ##把list轉乘char
+
+#建立一個向量
+content <- c()  
+##抓全部連結裡面的內文
+
+front <- "https://www.ptt.cc"
+for(i in 1:length(links)){    ##抓links裡面1到最後一個數值 長度的迴圈
+  url <- paste0(front, links[i])  ##把連結的尾巴加上前面的網址存到url
+  print(url)
+  
+  content[i] <- read_html(url) %>%    ##讀url內的文字資料丟到content
+    html_nodes("#main-content") %>%   ##抓指定的資料
+    html_text                         ##文字資料 
+}
+
+#18禁網址
+library(RCurl)
+library(rvest)
+curl <- getCurlHandle()
+curlSetOpt(cookie="over18=1", followlocation = TRUE, curl=curl)
+  pages <- getURL(pages, curl=curl)
