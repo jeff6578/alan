@@ -70,11 +70,20 @@ Home:
 #### Week3-1(7/22)
 
 Class:
+      機器學習介紹
 
 Home:
+- [x] 做期末專題報告
 
 #### Week3-4(7/25)
 
 Class:
-
+      專題講座影片共賞
+      
 Home:
+      期末專題報告(文字雲)
+ - [x] [PPT](https://jeff6578.github.io/alan/颱風專題/ppt/ppt.html)
+ 
+ - [x] [自由時報](https://jeff6578.github.io/alan/颱風專題/ppt/ppt.html)
+ 
+ 
