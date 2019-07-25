@@ -1,3 +1,11 @@
+---
+title: "爬自由時報新聞資料"
+author: "陳哲偉"
+date: "2019年7月25日"
+output: html_document
+---
+###### 資料來源 [自由時報](https://news.ltn.com.tw/search?keyword=%E9%A2%B1%E9%A2%A8&conditions=and&SYear=2019&SMonth=7&SDay=21&EYear=2019&EMonth=7&EDay=21)
+
 # 載入套件
 ```{r}
 library(rvest)
@@ -5,7 +13,6 @@ library(tm)
 library(jiebaR)
 library(jiebaRD)
 library(Matrix)
-library(RCurl)
 library(wordcloud2)
 library(text2vec)
 library(stringr)
@@ -13,34 +20,27 @@ library(stringr)
 
 # 抓網址
 ```{r}
-curl <- getCurlHandle()
-curlSetOpt(cookie="over18=1", followlocation = TRUE, curl=curl)
+data <- c()
+data1 <- c()
 links <- character()
-front <- "https://www.ptt.cc/bbs/Gossiping/search?page="
-for (i in 1:36) {
-  page <- paste0(front, i)
-  pages <- paste0(page, "&q=%E9%A2%B1%E9%A2%A8")
-  pages <- getURL(pages, curl=curl)
+front <- "https://news.ltn.com.tw/search/?keyword=%E9%A2%B1%E9%A2%A8%20%E5%BD%B1%E9%9F%BF%20%E5%9C%B0%E5%8D%80&conditions=and&SYear=2007&SMonth=7&SDay=1&EYear=2007&EMonth=9&EDay=30&page="
+
+for (i in 1:5) { #----------------------------------------------------------改頁數
+  pages <- paste0(front, i)
   web <- read_html(pages) %>%
-    html_nodes(".title a") %>%
+    html_nodes("a.tit") %>%     
     html_attr("href")
-  web <- paste0("https://www.ptt.cc", web)
+  web <- paste0("https://news.ltn.com.tw/", web)
   links <- c(links, web)
 }
 head(links)
 ```
 
-
-
 # 抓取連結內的資料
 ```{r}
-data <- c()
-data1 <- c()
-n = length(links)
-for (i in 1: n) {
-  lk <- getURL(links[i], curl = curl)
-  data1 <- read_html(lk)%>%
-    html_nodes("#main-content")%>%
+for (i in 1:length(links)) {
+  data1 <- read_html(links[i])%>%
+    html_nodes(".text p+ p , .viewtime+ p , .boxTitle+ p")%>%
     html_text()
   data <-paste0(data, data1)
 }
@@ -57,17 +57,20 @@ d.corpus <- Corpus(VectorSource(data)) %>% # Corpus(VectorSource())的input是li
     gsub("[A-Za-z0-9]", "", word)    ##把 function(word) 裡面的"[A-Za-z0-9]" 換成 ""
   })
 
+for (i in 2:9)#-------------------------------------------------看d.corpus的elements有幾個
+{
+  d.corpus <- paste0(d.corpus[1], d.corpus[i])
+}
 ```
 
 # 建立斷詞工具(新增詞庫&停止詞)
 ```{r}
-data <- as.character(d.corpus)
 cutter <- worker()
-cutter <- worker(stop_word = "C:/Users/jeff6/Desktop/Github/alan/颱風專題/ptt/a.txt")
+cutter <- worker(stop_word = "C:/Users/jeff6/Desktop/Github/alan/Typhoon/News/a.txt")
 new_user_word(cutter, c("西半部","東半部","中南部","南部","北部","東部","西部","東北部","基隆",
                         "台北","新北","桃園","新竹","苗栗","台中","澎湖","金門","連江","馬祖",
                         "彰化","南投","雲林","嘉義","台南","高雄","屏東","台東","花蓮","宜蘭",
-                        "外圍環流","能不能","明天",
+                        "外圍環流",
                         "丹娜絲","山竹","瑪莉亞","泰利","谷超","天鴿","珊瑚","馬莎",
                         "海棠","尼莎","艾利","梅姬","馬勒卡","莫蘭蒂","尼伯特","杜鵑","天鵝",
                         "蘇迪勒","蓮花","昌鴻","紅霞","鳳凰","麥德姆","哈吉貝","菲特","天兔",
@@ -76,7 +79,8 @@ new_user_word(cutter, c("西半部","東半部","中南部","南部","北部","�
                         "芭瑪","莫拉克","莫拉菲","薔蜜","哈格比","辛樂克","如麗","鳳凰",
                         "卡玫基","米塔","柯羅莎","韋帕","聖帕","梧提","帕布","珊珊","寶發",
                         "桑美","凱米","碧利斯","艾維尼","珍珠","龍王","丹瑞","卡努"))
-cloud <- cutter[data]
+cloud <- cutter[d.corpus]
+
 ```
 # 斷詞
 ```{r}
@@ -90,7 +94,7 @@ tail(vocab,20)#查看最高频的詞
 ```
 
 
-# 看關聯性
+# 建立四維向量
 ```{r}
 vectorizer = vocab_vectorizer(vocab)
 tcm = create_tcm(it, vectorizer,skip_grams_window = 5L)# 考慮詞的前後5個詞
@@ -103,22 +107,25 @@ wv_main[1,1]
 t(wv_context)[1,1]
 word_vectors = wv_main + t(wv_context)
 
-#建造“垃圾+廢物”向量
-relation = word_vectors["廢物", , drop = FALSE] +
-  word_vectors["垃圾", , drop = FALSE]
+#建造“影響+地區”向量
+relation = word_vectors["地區", , drop = FALSE] +
+  word_vectors["影響", , drop = FALSE]
+```
 
-#看和 “垃圾+廢物” 相關的10個詞
+# 看和 “影響+地區” 相關的10個詞
+```{r}
 cos_sim = sim2(x = word_vectors, y = relation, method = "cosine", norm = "l2")
 head(sort(cos_sim[,1], decreasing = TRUE), 10)
 ```
 
 # 文字雲
 ```{r}
-z <- sort(table(cloud),decreasing = T)[1:60]
+z <- sort(table(cloud),decreasing = T)[1:50]
 wordcloud2(z,
-           size = 3,
+           size = 0.5,
            color = "random-light",
-           backgroundColor = "black")
+           backgroundColor = "black",
+           shape = "triangle")
 
 ```
 
