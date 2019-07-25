@@ -82,8 +82,8 @@ Class:
       
 Home:
       期末專題報告(文字雲)
- - [x] [PPT](https://jeff6578.github.io/alan/颱風專題/ppt/ppt.html)
+ - [x] [PPT](https://jeff6578.github.io/alan/Typhoon/ppt/ppt.html)
  
- - [x] [自由時報](https://jeff6578.github.io/alan/颱風專題/ppt/ppt.html)
+ - [x] [自由時報](https://jeff6578.github.io/alan/Typhoon/News/722-07.html)
  
  
